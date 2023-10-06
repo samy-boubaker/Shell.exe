@@ -1,0 +1,51 @@
+#On vérifie qu'il y a bien 3 argument
+
+if [ "$#" -ne 3 ]; then
+        echo "Usage : $0 <nombre1> <+|-|*|/> <nombre2>"
+        exit 1
+fi
+
+
+nombre1="$1"
+operation="$2"
+nombre2="$3"
+
+
+#Vérification si les deux nombres sont des nombres réels
+
+if ! [[ "$nombre1" =~ ^[0-9]+(\.[0-9]+)?$ ]] || ! [[ "$nombre2" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        echo "Les deux premiers et troisièmes arguments doivent etre des nombres réels."
+        exit 1
+fi
+
+#Différentes opérations bc correspond à basic calculator ,pour effectuer un calcul mathématique
+ #et scale =2 correspond au nombre après la virgule pour une division
+
+case "$operation" in
+        "+")
+        resultat=$(echo "$nombre1 + $nombre2" | bc)
+        ;;
+        "-")
+        resultat=$(echo "$nombre1 - $nombre2" | bc)
+        ;;
+        "*")
+        resultat=$(echo "$nombre1 * $nombre2" | bc)
+        ;;
+        "/")
+        if [ "$nombre2" == "0" ]; then
+        echo "Erreur : division par zero." 
+        exit 1
+   fi
+        resultat=$(echo "scale=2; $nombre1 / $nombre2" | bc)
+        ;;
+    *)
+        echo "Opération non reconnu : $opération. Utiliser +,-,* ou / ."
+        exit 1 
+        ;;
+esac
+
+
+
+echo "Résultat de l'opération $nombre1 $operation $nombre2 : $resultat"
+
+

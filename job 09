@@ -1,0 +1,33 @@
+fichier_csv="/home/classico/Téléchargements/Userlist.csv"
+
+creer_utilisateur() {
+        prenom="$1"
+        nom="$2"
+        mdp="$3"
+        role="$4"
+
+        nom_utilisateur="${prenom}_${nom}"
+
+
+sudo useradd -m -p  "$(openssl passwd -l "$mdp")" "$nom_utilisateur"
+
+if [ "$role" = "admin" ]; then
+
+        sudo usermod -aG sudo "$nom_utilisateur"
+ fi
+
+}
+
+
+while IFS=, read -r prenom nom  mdp role; do
+
+        if id "$prenom_$nom" &>/dev/null; then
+           echo "L'utilisateur $prenom $nom existe déjà. Ignoré."
+        else
+
+        creer_utilisateur "$prenom" "$nom" "$mot_de_passe" "$role"
+        echo "L'utilisateur $prenom $nom a été créé."
+   fi
+
+
+done < "$fichier_csv"

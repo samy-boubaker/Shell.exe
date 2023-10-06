@@ -1,0 +1,4 @@
+echo "nouveau_fichier"="$1"
+echo "fichier_source"="$2"
+
+cp "nouveau_fichier" "fichier_source"

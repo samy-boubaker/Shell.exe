@@ -1,0 +1,12 @@
+argument ="$1"
+case "$argument" in
+        "Hello")
+                echo "Bonjour, je suis un script !"
+                ;;
+        "Bye")
+                echo "Au revoir et bonne journée !"
+                ;;
+        *)
+                echo "Argument non reconnu : $argument"
+                ;;
+esac
